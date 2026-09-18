@@ -12,6 +12,8 @@
 */
 #include "vga.h"
 #include "pmm.h"
+#include "pic.h"
+#include "idt.h"
 
 void kernel_main(void) {
     init_VGA();
@@ -20,9 +22,9 @@ void kernel_main(void) {
     SetTextColour(BRIGHTBLUE);
     
     SetTextColour(YELLOW);
-    kprintf("PeepHole/32 Kernel at 0x100000 - Phase 2 OK!\n");
+    kprintf("\tPeepHole/32 Kernel at 0x100000 - Phase 2 OK!\n");
     SetTextColour(GREEN);
-    kprintf("PIGGY loaded me from D:\\KERNEL.BIN - you are in C now!\n");
+    kprintf("\tPIGGY loaded me from D:\\KERNEL.BIN - you are in C now!\n");
     
     SetTextColour(BRIGHTBLUE);
     kprintf("\t****Hello PeepHole OS-32 in Protected mode******\n");
@@ -40,6 +42,12 @@ void kernel_main(void) {
 
     pmm_free_page(p1);
     kprintf("After free p1, free=%d\n", pmm_get_free_pages());
+    kprintf("setting up IDT...\n");
+    setup_IDT();
+    kprintf("Setting up IRQs...\n");
+    irq_install();
+    kprintf("IDT + PIC remapped + generic IRQs installed...\n");
+     __asm__("div %0" :: "r"(0)); // should print divide error, not reboot
 
     while(1){ __asm__ volatile("hlt"); } // as we are a kernel we must not end ;D so run infinitely
 }

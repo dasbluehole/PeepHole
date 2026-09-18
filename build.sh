@@ -30,9 +30,12 @@ $CC -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -fno-builtin -I.
 echo "[4/5] Compiling kernel.c..."
 $CC -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -fno-builtin -I./includes -c src/kernel.c -o build/kernel.o
 $CC -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -fno-builtin -I./includes -c src/pmm.c -o build/pmm.o
+$CC -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -fno-builtin -I./includes -c src/idt.c -o build/idt.o
+$CC -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -fno-builtin -I./includes -c src/irq.c -o build/irq.o
+nasm -f elf32 src/isr.asm -o build/isr.o
 
 echo "[5/5] Linking KERNEL.BIN at 0x100000..."
-$LD -T linker.ld -m elf_i386 -nostdlib build/kernel_entry.o build/kernel.o build/vga.o build/string.o build/pmm.o -o build/KERNEL.ELF
+$LD -T linker.ld -m elf_i386 -nostdlib build/kernel_entry.o build/kernel.o build/vga.o build/string.o build/pmm.o build/irq.o build/idt.o build/isr.o -o build/KERNEL.ELF
 $OBJCOPY -O binary build/KERNEL.ELF build/KERNEL.BIN
 
 echo ""
