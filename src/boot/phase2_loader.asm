@@ -1,4 +1,14 @@
-; NanoOS/32 Phase 2 - Final clean loader
+;~ |==========================================================|
+;~ | This file is a part of PeepHole Copyright (C) 2008, 2012 |
+;~ | ashok.s.das@gmail.com                                    |
+;~ | =========================================================|
+;~ | Kernel Loader it loads KERNEL.BIN                        | 
+;~ |  Taken from :                                            |
+;~ |  License: LGPL, GPL-V2, GPL-V3 or latter                 |
+;~ |==========================================================|
+;~ |Adopted to PeepHole (C) 2026 Ashok                        |
+;~ |==========================================================|
+; PeepHole/32 Phase 2 - Final clean loader
 ; Build: nasm -f bin phase2_loader.asm -o PIGGY.COM
 ; Needs D:\KERNEL.BIN in share
 

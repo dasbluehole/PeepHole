@@ -8,6 +8,8 @@
 |  Taken from :                                           |
 |  License: LGPL, GPL-V2 or latter                        |
 |=========================================================|
+| adopted to  PeepHole (C) 2026 Ashok                    |
+|=========================================================|
 */
 #ifndef _STDARG_
 #define _STDARG_

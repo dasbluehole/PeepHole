@@ -1,12 +1,14 @@
 /*
 |=========================================================|
-| This file is a part of TinyOS Copyright (C) 2008, 2012  |
-| ashok.s.das@gmail.com                                   |
-| Adopted here for TinyOS                                 |
+| This file is a part of TinyOS Copyright (C) 2008, 2012 |
+| ashok.s.das@gmail.com                                  |
+| Adopted here for TinyOS                                |
 | ========================================================|
-|  string implementation                                  |
-|  Taken from :                                           |
-|  License: LGPL, GPL-V2 or latter                        |
+|  string implementation                                 |
+|  Taken from :  see bellow JamesM's Kernel dev          |
+|  License: LGPL, GPL-V2 or latter                       |
+|=========================================================|
+|Adopted to PeepHole (C) 2026 Ashok                     |
 |=========================================================|
 */
 // common.c -- Defines some global functions.

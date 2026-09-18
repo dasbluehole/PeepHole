@@ -8,6 +8,8 @@
 |  Taken from :                                           |
 |  License: LGPL, GPL-V2 or latter                        |
 |=========================================================|
+| adopted to PeepHole (C) Ashok                          |
+|=========================================================|
 */
 #ifndef __TYPES_H__
 #define __TYPES_H__

@@ -2,8 +2,10 @@
 // This file is a part of Nanos Copyright (C) 2008, 2012//
 // ashok.s.das@gmail.com        GNU GPL-V2              //
 //////////////////////////////////////////////////////////
-// LowIO routines                                       //
-//                                                      //
+// LowIO routines                                      //
+//                                                     //
+//////////////////////////////////////////////////////////
+// adopted to PeepHole (C) 2026 Ashok                  //
 //////////////////////////////////////////////////////////
 /* Low level IO routines defined in low-io.asm
    These are C callable functions

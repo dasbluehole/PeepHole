@@ -1,5 +1,5 @@
 #!/bin/bash
-# NanoOS/32 Phase 2 - Linux Bash Build Script
+# PeepHole Build Script
 # Needs: nasm, i686-elf-gcc, i686-elf-ld, i686-elf-objcopy
 # If you have system gcc with multilib, you can use gcc -m32 instead
 
@@ -29,9 +29,10 @@ $CC -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -fno-builtin -I.
 
 echo "[4/5] Compiling kernel.c..."
 $CC -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -fno-builtin -I./includes -c src/kernel.c -o build/kernel.o
+$CC -m32 -ffreestanding -fno-pie -fno-stack-protector -nostdlib -fno-builtin -I./includes -c src/pmm.c -o build/pmm.o
 
 echo "[5/5] Linking KERNEL.BIN at 0x100000..."
-$LD -T linker.ld -m elf_i386 -nostdlib build/kernel_entry.o build/kernel.o build/vga.o build/string.o -o build/KERNEL.ELF
+$LD -T linker.ld -m elf_i386 -nostdlib build/kernel_entry.o build/kernel.o build/vga.o build/string.o build/pmm.o -o build/KERNEL.ELF
 $OBJCOPY -O binary build/KERNEL.ELF build/KERNEL.BIN
 
 echo ""

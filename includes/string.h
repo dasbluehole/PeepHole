@@ -8,6 +8,8 @@
 |  Taken from :                                           |
 |  License: LGPL, GPL-V2 or latter                        |
 |=========================================================|
+| adopted to PeepHole     (C) Ashok                      |
+|=========================================================|
 */
 #ifndef _STRING_H_
 #define _STRING_H_

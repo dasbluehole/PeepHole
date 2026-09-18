@@ -1,12 +1,14 @@
 /*
 |=========================================================|
-| This file is a part of TinyOS Copyright (C) 2008, 2012  |
-| ashok.s.das@gmail.com                                   |
-| Adopted here for TinyOS                                 |
+| This file is a part of TinyOS Copyright (C) 2008, 2012 |
+| ashok.s.das@gmail.com                                  |
+| Adopted here for TinyOS                                |
 | ========================================================|
-|  VGA implementation                                     |
-|  Taken from :                                           |
-|  License: LGPL, GPL-V2 or latter                        |
+|  VGA implementation                                    |
+|  Taken from :                                          |
+|  License: LGPL, GPL-V2 or latter                       |
+|=========================================================|
+| Adopted to PeepHole OS (C)2026 Ashok(dasbluehole)      |
 |=========================================================|
 */
 #include "stdargs.h"
