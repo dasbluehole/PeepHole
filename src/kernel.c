@@ -12,43 +12,48 @@
 */
 #include "vga.h"
 #include "pmm.h"
-#include "pic.h"
+#include "paging.h"
+#include "low-io.h"
 #include "idt.h"
+#include "vmm.h"
+
+extern void _fault_handler(regs *r);
+extern IDTR my_idtr;
+
+extern uint32_t page_directory[1024]; // from paging.c
+
 
 void kernel_main(void) {
-    init_VGA();
-    clear();
-    SetBackColour(BRIGHTWHITE);
-    SetTextColour(BRIGHTBLUE);
-    
-    SetTextColour(YELLOW);
+    __asm__ volatile("cli"); // STOP timer interrupts
+
+    init_VGA(); clear();
     kprintf("\tPeepHole/32 Kernel at 0x100000 - Phase 2 OK!\n");
-    SetTextColour(GREEN);
-    kprintf("\tPIGGY loaded me from D:\\KERNEL.BIN - you are in C now!\n");
-    
-    SetTextColour(BRIGHTBLUE);
-    kprintf("\t****Hello PeepHole OS-32 in Protected mode******\n");
-    kprintf("\t*****************Keep Patience******************\n");
-    kprintf("\t================================================\n");
+    pmm_init(); pmm_dump();
 
-    SetTextColour(GREEN);
-    pmm_init();
-    pmm_dump();
-
-    void* p1 = pmm_alloc_page();
-    void* p2 = pmm_alloc_page();
-    kprintf("Allocated p1=0x%x p2=0x%x\n", p1, p2);
-    kprintf("Free now: %d\n", pmm_get_free_pages());
-
-    pmm_free_page(p1);
-    kprintf("After free p1, free=%d\n", pmm_get_free_pages());
-    kprintf("setting up IDT...\n");
     setup_IDT();
-    kprintf("Setting up IRQs...\n");
-    irq_install();
-    kprintf("IDT + PIC remapped + generic IRQs installed...\n");
-     __asm__("div %0" :: "r"(0)); // should print divide error, not reboot
+    irq_install(); // IDT is now in place
 
-    while(1){ __asm__ volatile("hlt"); } // as we are a kernel we must not end ;D so run infinitely
+    paging_init_identity();
+    paging_enable(); // your inline version is fine
+    kprintf("PAGING ON dir=0x%x tab=0x%x\n", page_directory, first_page_table);
+    kprintf("IDT base 0x%x\n", my_idtr.base);
+
+    kprintf("Mapping 0xE0000000...\n");
+
+	uint32_t val ;//= *(volatile uint32_t*)0xE0000000;
+	
+	//kprintf("Read back from E0000000: 0x%x - SUCCESS!\n", val);
+	map_range(0xE0000000, 0x1000, PAGE_PRESENT|PAGE_WRITE);
+	// write @ 0xE0000000 value 0x12345678
+    *(uint32_t*)0xE0000000 = 0x12345678;
+    val = *(uint32_t*)0xE0000000;
+	if(val == 0x12345678) {
+	    kprintf("Paging test PASSED!\n");
+	} else {
+	    kprintf("Paging test FAILED!\n");
+	}
+    while(1) __asm__ volatile("hlt");
+    kprintf("SHOULD NEVER REACH HERE\n");
 }
+
 

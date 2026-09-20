@@ -12,6 +12,7 @@
 #include "idt.h"
 #include "string.h"
 #include "stdio.h"
+#include "stdint.h"
 IDT_entry idt[256];  //our IDT table holder
 IDTR my_idtr;	     // our IDT ptr
 
@@ -155,29 +156,35 @@ void setup_IDT()
 }
 void _fault_handler(struct regs *r)
 {
-	isrfunc_t my_handler;
-	my_handler=isr_routines[r->int_no];
-	if (my_handler)
-	{
-		my_handler(r);
-	}
-	else		    
-	/* Is this a fault whose number is from 0 to 31? */
-    //if (r->int_no < 32)
-    {
-        /* Display the description for the Exception that occurred.
-        *  In this tutorial, we will simply halt the system using an
-        *  infinite loop */
-        kprintf("interrupt %d : %s\n",r->int_no,exception_messages[r->int_no]);
-        kprintf(". System Halted!\n");
-	asm volatile
-	(
-		"hlt"
-		:
-		:
-	);
-        //for (;;);
-    }
+//Commented code is original and working with nano OS
+//	isrfunc_t my_handler;
+//	my_handler=isr_routines[r->int_no];
+//	if (my_handler)
+//	{
+//		my_handler(r);
+//	}
+//	else		    
+//	/* Is this a fault whose number is from 0 to 31? */
+//    //if (r->int_no < 32)
+//    {
+//        /* Display the description for the Exception that occurred.
+//        *  In this tutorial, we will simply halt the system using an
+//        *  infinite loop */
+//        kprintf("interrupt %d : %s\n",r->int_no,exception_messages[r->int_no]);
+//        kprintf(". System Halted!\n");
+//	asm volatile
+//	(
+//		"hlt"
+//		:
+//		:
+//	);
+//        //for (;;);
+//    }
+/* this bellow code is a debug/test code given by Meta */
+   uint32_t cr2;
+  __asm__ volatile(".intel_syntax noprefix; mov %0, cr2;.att_syntax prefix" : "=r"(cr2));
+  kprintf("\nPAGE FAULT at 0x%x err=0x%x eip=0x%x int=%d\n", cr2, r->err_code, r->eip, r->int_no);
+  for(;;) __asm__ volatile("cli; hlt");
 }
 void isr_install_handler(int isr, isrfunc_t my_handler)
 {

@@ -173,7 +173,13 @@ _isr14:
                 ; It pushes one already!Use this type of stub for exceptions
                 ; that pop error codes!
     jmp isr_common_stub
-
+; BELLO is a temporary routine remove it after fixing tripple fault in paging
+;_isr14:
+;    cli
+;    mov byte [0xB8000], 'P' ; will appear top-left if IDT[14] is readable
+;    mov byte [0xB8001], 0x4E ; yellow on red
+;    hlt
+;    jmp _isr14
 ;15 Unknown Exception
 _isr15:
     cli

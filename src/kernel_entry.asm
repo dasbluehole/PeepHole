@@ -22,8 +22,10 @@ _start:
     mov fs, ax
     mov gs, ax
     mov ss, ax
-    mov esp, 0x90000
-
+    ;mov esp, 0x90000
+    mov esp, 0x300FF0      ; was 0x90000 — now safe, away from PMM bitmap at 0x200000
+    mov ebp, esp
+    
     call kernel_main
 .hang:
     cli
